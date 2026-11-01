@@ -144,8 +144,42 @@ def generate_answers(job_text, company, role, questions):
     }
 
 
+def generate_cover_letter(job_text, company, role):
+    """Produce a tailored one-page cover letter drawn from the profile + matched skills."""
+    profile = load_profile()
+    p = profile["personal"]
+    matched = match_skills(job_text)
+    company = company or "your team"
+    role = role or "this role"
+
+    # Pick the two most relevant skill lines to weave in
+    skill_sentences = " ".join(matched[:2]) if matched else (
+        "I work fluently in Python, R, SQL, and Tableau across end-to-end analysis.")
+
+    body = f"""Dear Hiring Manager,
+
+I am writing to apply for the {role} position at {company}. As a penultimate-year BSc Data Science and Business Analytics student at the University of London (LSE), on track for an Upper Second Class Honours, I bring hands-on experience in end-to-end data analysis, machine learning, and business intelligence that maps closely to what this role requires.
+
+During my Data Management internship at the People's Association, I built an automated Tableau audit dashboard that streamed live data from FormSG so leadership could monitor compliance in real time, and I supported an NLP-powered AI proof of concept on AWS while rigorously testing Column- and Row-Level Security to keep sensitive data safe. Across my analytics projects — from behavioural and monetization analysis of in-app currency to a global sales dataset and a large-scale flight-delay study — I have turned messy data into clear, actionable recommendations. {skill_sentences}
+
+What draws me to {company} is the chance to apply these skills where they create real impact. I am AWS Generative AI certified, comfortable moving from raw data to a decision-ready dashboard or model, and used to collaborating under pressure through my Data Analytics Club and leadership roles. I am a Singapore Citizen available from June 2027 and open to relocation.
+
+I would welcome the opportunity to discuss how I can contribute to {company}. Thank you for your consideration.
+
+Sincerely,
+{p['full_name']}
+{p['email']} | {p['phone']}
+{p['linkedin']}"""
+    return body
+
+
 if __name__ == "__main__":
     # quick self-test
+    print("=== COVER LETTER ===")
+    print(generate_cover_letter(
+        "Data Analyst role using Python, SQL, Tableau and machine learning.",
+        "Grab", "Data Analyst"))
+    print("\n=== ANSWERS ===")
     r = generate_answers(
         "Looking for a Data Analyst with Python, SQL and Tableau. Machine learning a plus.",
         "Acme Analytics", "Data Analyst",

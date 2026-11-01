@@ -82,7 +82,9 @@ Are you authorized to work in Singapore?
 When can you start?
 Expected salary?"></textarea>
 <button onclick="gen()">Generate tailored answers</button>
+<button class="secondary" onclick="genLetter()">Generate cover letter</button>
 <div id="answers"></div>
+<div id="letter"></div>
 
 <h2>4. Your applications</h2>
 <button class="secondary" onclick="loadApps()">Refresh tracker</button>
@@ -111,6 +113,14 @@ async function gen(){
    '<button class="copy" onclick="copyA('+i+')">Copy answer</button></div>').join('')+
   '<button onclick="saveReady()">Save draft & alert me it\\'s ready to submit</button>'; }
 function copyA(i){navigator.clipboard.writeText(document.getElementById('a'+i).innerText);}
+async function genLetter(){
+ const body={company:company.value,role:role.value,jobtext:jobtext.value};
+ const r=await fetch('/coverletter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ const d=await r.json();
+ document.getElementById('letter').innerHTML='<div class="qa"><b>Cover letter</b>'+
+  '<textarea style="height:300px">'+d.letter+'</textarea>'+
+  '<button class="copy" onclick="copyLetter(this)">Copy cover letter</button></div>'; }
+function copyLetter(btn){navigator.clipboard.writeText(btn.previousElementSibling.value);}
 async function saveReady(){
  const r=await fetch('/save',{method:'POST',headers:{'Content-Type':'application/json'},
    body:JSON.stringify({...lastMeta,answers:lastAnswers})});
@@ -169,6 +179,10 @@ class Handler(BaseHTTPRequestHandler):
                 data.get("jobtext", ""), data.get("company", ""),
                 data.get("role", ""), data.get("questions", []))
             return self._send(200, res)
+        if p.path == "/coverletter":
+            letter = engine.generate_cover_letter(
+                data.get("jobtext", ""), data.get("company", ""), data.get("role", ""))
+            return self._send(200, {"letter": letter})
         if p.path == "/save":
             app = tracker.add_application(
                 data.get("company", ""), data.get("role", ""), data.get("url", ""),
