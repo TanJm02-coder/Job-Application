@@ -1,0 +1,9 @@
+{
+  "note": "Companies to auto-poll for new data/analytics roles via their public ATS APIs (ToS-safe). Add any company here: find its ATS board token from its careers-page URL. Examples of token format: greenhouse -> boards.greenhouse.io/<token>; lever -> jobs.lever.co/<token>; ashby -> jobs.ashbyhq.com/<token>.",
+  "companies": [
+    {"ats": "greenhouse", "token": "stripe", "label": "Stripe"},
+    {"ats": "greenhouse", "token": "databricks", "label": "Databricks"},
+    {"ats": "lever", "token": "grab", "label": "Grab (verify token)"},
+    {"ats": "ashby", "token": "notion", "label": "Notion"}
+  ]
+}

@@ -1,0 +1,8 @@
+# Local runtime data — keep your application history off GitHub
+applications.json
+# Your real profile with personal contact details — stays on your Mac only.
+# Copy profile.example.json -> profile.json locally and fill in your email/phone.
+profile.json
+__pycache__/
+*.pyc
+.DS_Store

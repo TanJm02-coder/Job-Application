@@ -1,0 +1,148 @@
+{
+  "personal": {
+    "full_name": "Tan Jie Ming",
+    "email": "YOUR_EMAIL@example.com",
+    "phone": "+65 XXXX XXXX",
+    "linkedin": "https://linkedin.com/in/tanjieming/",
+    "location": "Singapore",
+    "nationality": "Singapore Citizen",
+    "work_authorization": "Singapore Citizen - no work pass required; authorized to work in Singapore",
+    "open_to_relocation": true,
+    "available_from": "2027-06-01",
+    "availability_note": "Final examinations complete June 2027; available to start full-time from then (graduation ceremony March 2028 does not affect availability).",
+    "student_status": "Penultimate-year undergraduate",
+    "expected_salary": "",
+    "notice_period": "Available from June 2027"
+  },
+  "education": {
+    "degree": "BSc (Hons) Data Science and Business Analytics",
+    "institution": "University of London (LSE)",
+    "period": "2024-Present",
+    "expected_classification": "Upper Second Class Honours (2:1)",
+    "prior": "Yishun Innova Junior College - GCE 'A' Level (2019-2021)"
+  },
+  "skills": {
+    "programming": [
+      "Python",
+      "R",
+      "SQL"
+    ],
+    "data_analysis": [
+      "EDA",
+      "Machine Learning",
+      "NLP",
+      "Web Scraping",
+      "Logistic Regression"
+    ],
+    "visualization": [
+      "Tableau"
+    ],
+    "libraries": [
+      "Pandas",
+      "NumPy",
+      "scikit-learn",
+      "Jupyter",
+      "RMarkdown",
+      "Matplotlib",
+      "ggplot2"
+    ],
+    "ai": [
+      "Prompt Engineering",
+      "Generative AI (AWS Certified 2026)"
+    ],
+    "tools": [
+      "Git",
+      "GitHub",
+      "Microsoft Office"
+    ]
+  },
+  "experience": [
+    {
+      "type": "internship",
+      "title": "Data Management Division Intern",
+      "org": "People's Association",
+      "start": "2026-05-25",
+      "end": "2026-09-11",
+      "highlights": [
+        "Analyzed data governance self-assessments, translating checklist returns into insights to track compliance and spot gaps.",
+        "Built an automated audit dashboard in Tableau, streaming data directly from FormSG via GovTech tools for real-time monitoring of audit schedules, KPAs, and completion rates.",
+        "Managed data migration and testing for the mPADNA AI proof of concept, ensuring the NLP-powered 'Dialogue Box' ran smoothly on AWS for natural data retrieval.",
+        "Secured sensitive data by testing context engineering with Column-Level (CLS) and Row-Level Security (RLS).",
+        "Tested and verified user access controls for the Ownself Gather system's secure FormSG integration."
+      ]
+    },
+    {
+      "type": "project",
+      "title": "Coffee Meets Bagel - Behavioural & Monetization Analysis",
+      "org": "Data Analytics Club",
+      "start": "2026-01-01",
+      "end": "2026-03-31",
+      "highlights": [
+        "Analyzed user behaviour around in-app currency (earn, spend, purchase) to inform product and revenue strategy.",
+        "Identified engagement patterns, conversion behaviour, and key user segments via EDA and statistical analysis."
+      ]
+    },
+    {
+      "type": "project",
+      "title": "BMW Global Sales Analysis",
+      "org": "Data Analytics Club",
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "highlights": [
+        "End-to-end analysis of a global BMW sales dataset; data cleaning (nulls, duplicates, outliers) and EDA across models, regions, and years.",
+        "Built Tableau dashboards visualising revenue trends, regional market share, and sales."
+      ]
+    },
+    {
+      "type": "project",
+      "title": "Market Analysis Report",
+      "org": "Academic Project",
+      "start": "2026-01-01",
+      "end": "2026-06-30",
+      "highlights": [
+        "Analyzed sales trajectories, profit margins, regional dynamics, shipping logistics, and sub-category performance using Tableau.",
+        "Recommended discount optimization, logistics restructuring, and segment prioritisation."
+      ]
+    },
+    {
+      "type": "project",
+      "title": "Apple Consumer Insights Case Study",
+      "org": "Academic Project",
+      "start": "2026-01-01",
+      "end": "2026-06-30",
+      "highlights": [
+        "Developed a full research design to understand consumer preferences across products, ecosystem integration, and service personalisation.",
+        "Proposed Chi-squared, ANOVA, MLR, Discriminant Analysis, and Conjoint Analysis with justifications, plus a planned focus group."
+      ]
+    },
+    {
+      "type": "project",
+      "title": "Programming for Data Science",
+      "org": "Academic Project",
+      "start": "2026-01-01",
+      "end": "2026-06-30",
+      "highlights": [
+        "Analyzed a large-scale US commercial flight dataset to find optimal departure times/days that minimise delays.",
+        "Assessed aircraft age vs. delay correlation year-by-year; used logistic regression to predict diversion rates in Python and R."
+      ]
+    }
+  ],
+  "certifications": [
+    "AWS Generative AI & Machine Learning (2026): Intro to Generative AI, Planning a GenAI Project, Responsible AI Practices, Foundations of Prompt Engineering, No-Code ML and GenAI",
+    "AWS Academy Graduate - Machine Learning Foundations"
+  ],
+  "awards": [
+    "SIM WILL Award (Top Local Internship)",
+    "Flames of Merit (2025)",
+    "Edusave EAGLES Award (2021)",
+    "Service Award with Distinction (2021)",
+    "National Youth Achievement Award - Silver (2018)"
+  ],
+  "activities": [
+    "Data Analytics Club (2025-2026): applied Python, R, SQL, EDA, web scraping, NLP, Tableau to real-world datasets in a team.",
+    "Fencing Club (2024-Present): competitive, represented university vs NUS, SMU, NTU.",
+    "Student Council & Interact Club: event leadership, recruitment, logistics, publicity.",
+    "National Police Cadet Corps: Head of Media & Publicity."
+  ],
+  "experience_date_reference": "Compute years of experience relative to the application date. Internship = People's Association (2026-05-25 to 2026-09-11). Projects are NOT paid employment. When a question says 'excluding internships', professional experience = 0 years. When internships are included, count the PA internship (~3.5 months)."
+}

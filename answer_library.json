@@ -1,0 +1,26 @@
+{
+  "note": "Reusable base answers to common application screening questions. The answer generator tailors these per job. Edit any of these in your own words anytime.",
+  "standing_facts": {
+    "work_authorization": "I am a Singapore Citizen and am fully authorized to work in Singapore with no work pass required.",
+    "require_sponsorship": "No. As a Singapore Citizen I do not require visa sponsorship to work in Singapore.",
+    "earliest_start_date": "June 2027 (after my final examinations).",
+    "notice_period": "Available from June 2027.",
+    "willing_to_relocate": "Yes, I am open to relocation.",
+    "salary_expectation": "Open to discussion / aligned with market rate for the role (leave blank where optional).",
+    "gpa_classification": "On track for Upper Second Class Honours (2:1).",
+    "disability_status": "Prefer not to say / decline to self-identify (choose as you wish).",
+    "how_did_you_hear": "Company careers page / job board."
+  },
+  "years_of_experience_rules": {
+    "excluding_internships": "0 years of professional (non-internship) experience.",
+    "including_internships": "Approximately 4 months of hands-on data experience via a Data Management internship at the People's Association (May-Sep 2026), plus extensive project-based analytics work.",
+    "specific_tool": "State hands-on project + internship usage, not full years. E.g. Python/SQL/Tableau used across internship and multiple analytics projects over the past 2 years of study."
+  },
+  "base_narratives": {
+    "pitch": "I am a penultimate-year BSc Data Science and Business Analytics student (University of London / LSE) with hands-on experience in end-to-end data analysis, machine learning, and business intelligence. During my Data Management internship at the People's Association I built an automated Tableau audit dashboard streaming live from FormSG and supported an NLP AI proof of concept on AWS. I work fluently in Python, R, SQL, and Tableau, and I am AWS GenAI certified.",
+    "why_data": "I enjoy turning messy data into decisions people can act on. Across my internship and projects I have consistently found that a clear dashboard or a well-framed model changes how a team acts, and that impact is what motivates me.",
+    "strengths": "Strong technical foundation (Python, R, SQL, Tableau, ML/NLP), an eye for data governance and security (CLS/RLS testing during my internship), and the communication skills to translate analysis into business recommendations.",
+    "teamwork": "Through my Data Analytics Club, Student Council leadership, and competitive fencing, I am used to collaborating under pressure and coordinating stakeholders toward a shared goal.",
+    "why_us_template": "I am drawn to {COMPANY} because {SPECIFIC_REASON}. My background in {RELEVANT_SKILLS} maps directly to {ROLE}, and I am excited to contribute to {TEAM_OR_PRODUCT}."
+  }
+}
