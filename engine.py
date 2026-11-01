@@ -36,7 +36,8 @@ def years_of_experience(include_internships=False, profile=None):
     profile = profile or load_profile()
     total_months = 0
     for exp in profile["experience"]:
-        if exp["type"] == "internship" and include_internships:
+        # case-insensitive so "internship"/"Internship" and "project"/"Project" both work
+        if exp.get("type", "").strip().lower() == "internship" and include_internships:
             total_months += _months_between(exp["start"], exp["end"])
     years = round(total_months / 12.0, 1)
     if not include_internships:
@@ -164,12 +165,22 @@ During my Data Management internship at the People's Association, I built an aut
 
 What draws me to {company} is the chance to apply these skills where they create real impact. I am AWS Generative AI certified, comfortable moving from raw data to a decision-ready dashboard or model, and used to collaborating under pressure through my Data Analytics Club and leadership roles. I am a Singapore Citizen available from June 2027 and open to relocation.
 
-I would welcome the opportunity to discuss how I can contribute to {company}. Thank you for your consideration.
+I would welcome the opportunity to discuss how I can contribute to {company}. Thank you for your consideration."""
+
+    # normalise LinkedIn URL and pick up an optional website/portfolio field
+    linkedin = p.get("linkedin", "")
+    if linkedin and not linkedin.startswith("http"):
+        linkedin = "https://" + linkedin
+    website = p.get("website") or p.get("Website") or ""
+    contact_lines = f"{p['email']} | {p['phone']}"
+    links = " | ".join(x for x in [linkedin, website] if x)
+
+    body += f"""
 
 Sincerely,
 {p['full_name']}
-{p['email']} | {p['phone']}
-{p['linkedin']}"""
+{contact_lines}
+{links}"""
     return body
 
 
