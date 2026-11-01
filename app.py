@@ -99,8 +99,10 @@ async function pollJobs(){
  document.getElementById('pollresult').innerHTML='<p class="muted">Checking…</p>';
  const r=await fetch('/poll'); const d=await r.json(); const el=document.getElementById('pollresult');
  if(!d.jobs.length){el.innerHTML='<p class="muted">No new matching roles right now.</p>';return;}
- el.innerHTML='<p><span class="badge">'+d.jobs.length+' new</span></p>'+d.jobs.map(j=>
-  '<div class="job"><b>'+j.title+'</b><div class="muted">'+(j.location||'')+' · '+j.source+'</div><a href="'+j.url+'" target="_blank">Open posting ↗</a></div>').join(''); }
+ el.innerHTML='<p><span class="badge">'+d.jobs.length+' new · Singapore only</span></p>'+d.jobs.map(j=>
+  '<div class="job"><b>'+j.title+'</b><div class="muted">'+(j.location||'(no location)')+' · '+j.source+'</div>'+
+  (j.location_note?'<div class="muted" style="color:#b26a00">⚠ '+j.location_note+'</div>':'')+
+  '<a href="'+j.url+'" target="_blank">Open posting ↗</a></div>').join(''); }
 let lastAnswers=null, lastMeta=null;
 async function gen(){
  const body={company:company.value,role:role.value,url:url.value,jobtext:jobtext.value,

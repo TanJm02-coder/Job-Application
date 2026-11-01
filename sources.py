@@ -109,6 +109,45 @@ def relevant(title):
     return any(x in t for x in terms)
 
 
+# Location filtering. Default: Singapore only. Set SG_ONLY = False to allow worldwide.
+SG_ONLY = True
+_SG_TERMS = ["singapore", "sg", "sgp", "remote - apac", "apac"]
+# Strings that indicate a clearly non-SG location (used to reject "Remote - US" etc.)
+_NON_SG_HINTS = [
+    "united states", "usa", "u.s.", "london", "uk", "india", "bangalore",
+    "bengaluru", "manila", "philippines", "vietnam", "ho chi minh", "jakarta",
+    "indonesia", "malaysia", "kuala lumpur", "bangkok", "thailand", "tokyo", "japan",
+    "korea", "seoul", "sydney", "australia", "china", "beijing", "shanghai",
+    "hong kong", "taiwan", "germany", "berlin", "amsterdam", "netherlands", "canada",
+    "dublin", "ireland", "france", "paris", "emea", "latam", "brazil",
+]
+
+
+def is_singapore(location):
+    import re
+    loc = (location or "").lower().strip()
+    if not loc:
+        # No location given: keep it, but it will be flagged for you to verify.
+        return True
+    # explicit Singapore (word-boundary, so "sg"/"us" don't match inside other words)
+    if re.search(r"\b(singapore|sg|sgp)\b", loc):
+        return True
+    # bare non-SG country codes/terms that need word boundaries
+    if re.search(r"\b(us|usa|uk|eu|emea|latam|apac na|us remote|remote us)\b", loc) \
+            and not re.search(r"\b(apac|asia)\b", loc):
+        return False
+    # named non-SG countries/cities
+    if any(h in loc for h in _NON_SG_HINTS):
+        return False
+    # APAC / Asia remote is plausibly SG-eligible
+    if re.search(r"\b(apac|asia)\b", loc):
+        return True
+    # a generic "remote" with no disqualifying country -> keep (verify later)
+    if "remote" in loc:
+        return True
+    return False
+
+
 def poll_companies(companies):
     """companies: list of dicts {'ats': 'greenhouse'|'lever'|'ashby', 'token': '...'}"""
     results = []
@@ -126,8 +165,15 @@ def poll_companies(companies):
         for j in jobs:
             if "error" in j:
                 results.append(j)
-            elif relevant(j.get("title", "")):
-                results.append(j)
+                continue
+            if not relevant(j.get("title", "")):
+                continue
+            if SG_ONLY and not is_singapore(j.get("location", "")):
+                continue
+            # flag postings with no stated location so you can double-check
+            if not (j.get("location") or "").strip():
+                j["location_note"] = "location not stated — verify it's Singapore"
+            results.append(j)
     return results
 
 

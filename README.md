@@ -3,7 +3,7 @@
 A local toolkit (runs entirely on your Mac, no installs beyond built-in Python 3) that:
 
 1. **Finds fresh jobs** — one-click search links for **Indeed SG, JobsDB SG, MyCareersFuture, LinkedIn, Glassdoor**, all pre-filtered to your roles + Singapore + sorted newest-first.
-2. **Auto-polls company boards** — checks public ATS APIs (Greenhouse / Lever / Ashby) for brand-new data/analytics roles and fires a **desktop alert** when new ones appear. This part is fully automated and ToS-safe.
+2. **Auto-polls company boards** — checks public ATS APIs (Greenhouse / Lever / Ashby) for brand-new data/analytics roles and fires a **desktop alert** when new ones appear. This part is fully automated and ToS-safe. **Filtered to Singapore only** (plus APAC/Asia-remote roles that are SG-eligible); postings with no stated location are kept but flagged "verify it's Singapore". To allow worldwide roles, set `SG_ONLY = False` in `sources.py`.
 3. **Generates tailored answers** — paste a job description + its screening questions, get ready-to-paste answers drawn from *your* resume (experience logic included: "0" when a question excludes internships, PA internship counted otherwise).
 4. **Generates a tailored cover letter** per posting — one click, drawn from your resume.
 5. **Tracks applications** — logs every draft, status, and date.
