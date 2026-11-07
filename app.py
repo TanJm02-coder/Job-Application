@@ -60,14 +60,22 @@ PAGE = """<!doctype html><html><head><meta charset="utf-8">
 <p class="muted">Paste a job + its questions below. You review the answers and submit in your own browser.
 No passwords stored; final submit is always yours.</p>
 
-<h2>1. Fresh jobs — search links (newest first)</h2>
+<h2>1. Live Singapore job search (MyCareersFuture)</h2>
+<div class="row">
+ <div><input id="mcfkw" placeholder="e.g. data analyst" value="data analyst"></div>
+ <div style="flex:0 0 auto"><button onclick="mcfSearch()">Search live SG jobs</button></div>
+</div>
+<label class="muted"><input type="checkbox" id="entrylevel" checked> entry/junior roles only</label>
+<div id="mcfresult"></div>
+
+<h2>2. More fresh-job search links (open in new tab)</h2>
 <div class="links" id="links"></div>
 
-<h2>2. Auto-polled company boards (ToS-safe)</h2>
+<h2>3. Auto-polled company boards (ToS-safe)</h2>
 <button class="secondary" onclick="pollJobs()">Check company boards for new roles</button>
 <div id="pollresult"></div>
 
-<h2>3. Generate answers for an application</h2>
+<h2>4. Generate answers for an application</h2>
 <div class="row">
  <div><label>Company</label><input id="company" placeholder="e.g. Grab"></div>
  <div><label>Role</label><input id="role" placeholder="e.g. Data Analyst"></div>
@@ -86,11 +94,30 @@ Expected salary?"></textarea>
 <div id="answers"></div>
 <div id="letter"></div>
 
-<h2>4. Your applications</h2>
+<h2>5. Your applications</h2>
 <button class="secondary" onclick="loadApps()">Refresh tracker</button>
 <div id="apps"></div>
 
 <script>
+async function mcfSearch(){
+ const kw=document.getElementById('mcfkw').value||'data analyst';
+ const entry=document.getElementById('entrylevel').checked;
+ const el=document.getElementById('mcfresult'); el.innerHTML='<p class="muted">Searching live SG jobs…</p>';
+ const r=await fetch('/mcf?kw='+encodeURIComponent(kw)+'&entry='+(entry?'1':'0'));
+ const d=await r.json();
+ if(d.error){el.innerHTML='<p class="muted">Error: '+d.error+'</p>';return;}
+ if(!d.jobs.length){el.innerHTML='<p class="muted">No roles found. Try a different keyword.</p>';return;}
+ el.innerHTML='<p><span class="badge">'+d.jobs.length+' live SG jobs</span></p>'+d.jobs.map(j=>
+  '<div class="job"><b>'+j.title+'</b><div class="muted">'+j.company+' · '+(j.salary||'salary n/a')+' · '+(j.level||'')+' · posted '+j.posted+'</div>'+
+  '<a href="'+j.url+'" target="_blank">Open & apply ↗</a> &nbsp; '+
+  '<button class="copy" onclick="useJob(\\''+encodeURIComponent(j.company)+'\\',\\''+encodeURIComponent(j.title)+'\\',\\''+encodeURIComponent(j.url)+'\\')">Use this job →</button></div>').join(''); }
+function useJob(c,t,u){
+ document.getElementById('company').value=decodeURIComponent(c);
+ document.getElementById('role').value=decodeURIComponent(t);
+ document.getElementById('url').value=decodeURIComponent(u);
+ loadLinks();
+ document.getElementById('jobtext').scrollIntoView({behavior:'smooth'});
+ document.getElementById('jobtext').focus(); }
 async function loadLinks(){
  const r = await fetch('/links?kw='+encodeURIComponent(document.getElementById('role')?.value||'Data Analyst'));
  const d = await r.json(); const el=document.getElementById('links'); el.innerHTML='';
@@ -132,7 +159,7 @@ async function loadApps(){
  if(!d.length){el.innerHTML='<p class="muted">No applications yet.</p>';return;}
  el.innerHTML=d.map(a=>'<div class="job"><b>'+a.role+' @ '+a.company+'</b> <span class="badge">'+a.status+'</span>'+
   '<div class="muted">'+a.created+'</div>'+(a.url?'<a href="'+a.url+'" target="_blank">Open ↗</a>':'')+'</div>').join(''); }
-loadLinks(); loadApps();
+loadLinks(); loadApps(); mcfSearch();
 </script></body></html>"""
 
 
@@ -155,6 +182,14 @@ class Handler(BaseHTTPRequestHandler):
         if p.path == "/links":
             kw = urllib.parse.parse_qs(p.query).get("kw", ["Data Analyst"])[0]
             return self._send(200, sources.board_search_links(kw))
+        if p.path == "/mcf":
+            q = urllib.parse.parse_qs(p.query)
+            kw = q.get("kw", ["data analyst"])[0]
+            entry = q.get("entry", ["1"])[0] == "1"
+            jobs = sources.search_mycareersfuture(kw, limit=25, entry_level_only=entry)
+            if jobs and "error" in jobs[0]:
+                return self._send(200, {"error": jobs[0]["error"], "jobs": []})
+            return self._send(200, {"jobs": jobs})
         if p.path == "/poll":
             try:
                 with open(os.path.join(BASE, "companies.json")) as f:

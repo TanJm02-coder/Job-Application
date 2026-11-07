@@ -148,6 +148,55 @@ def is_singapore(location):
     return False
 
 
+def search_mycareersfuture(keyword="data analyst", limit=20, entry_level_only=True):
+    """
+    LIVE search of MyCareersFuture (official SG government job board) via its public API.
+    Returns real Singapore jobs, newest first. This is the main in-app job feed.
+    """
+    url = f"https://api.mycareersfuture.gov.sg/v2/search?limit={limit}&page=0"
+    payload = {"search": keyword, "sortBy": ["new_posting_date"]}
+    data_bytes = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        url, data=data_bytes, method="POST",
+        headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            data = json.loads(r.read().decode("utf-8"))
+    except Exception as e:
+        return [{"error": f"mycareersfuture: {e}"}]
+
+    out = []
+    for item in data.get("results", []):
+        meta = item.get("metadata", {})
+        company = (item.get("postedCompany") or {}).get("name", "Company not disclosed")
+        levels = [p.get("position", "") for p in item.get("positionLevels", [])]
+        # entry/junior filter for a penultimate student
+        if entry_level_only:
+            lv = " ".join(levels).lower()
+            senior = any(s in lv for s in ["manager", "senior", "lead", "director",
+                                           "head", "principal", "executive"])
+            if senior and not any(s in lv for s in ["fresh", "entry", "junior",
+                                                    "professional", "non-executive"]):
+                continue
+        sal = item.get("salary") or {}
+        salary = ""
+        if sal.get("minimum") and not item.get("isHideSalary"):
+            salary = f"${sal.get('minimum')}-{sal.get('maximum')}/mo"
+        out.append({
+            "id": f"mcf-{meta.get('jobPostId', '')}",
+            "source": "MyCareersFuture (SG govt)",
+            "title": item.get("title", ""),
+            "company": company,
+            "location": "Singapore",
+            "level": ", ".join(levels),
+            "salary": salary,
+            "posted": meta.get("newPostingDate", ""),
+            "url": meta.get("jobDetailsUrl", ""),
+        })
+    return out
+
+
 def poll_companies(companies):
     """companies: list of dicts {'ats': 'greenhouse'|'lever'|'ashby', 'token': '...'}"""
     results = []
